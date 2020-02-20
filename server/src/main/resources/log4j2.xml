@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="INFO" monitorInterval="30">
+    <!-- 自己设置属性，后面通过${}来访问 -->
+    <properties>
+        <!-- <property name="LOG_HOME">/data/pear/v1/third-server</property> -->
+        <property name="LOG_HOME">logs</property>
+        <!-- 日志备份目录 -->
+    </properties>
+    <appenders>
+        <!--Appender 1. 输出到Console控制台，指定输出格式和过滤器等级为INFO -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--ThresholdFilter指定日志消息的输出最低层次-->
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout
+                    pattern="%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight{%-5level} [%t] %highlight{%c{1.}.%M(%L)}: %msg%n"/>
+        </Console>
+
+        <!--Appender 2. 输出到滚动保存的文件, 触发保存日志文件的条件是日志文件大于3KB，只保存最新的10个日志-->
+        <File name="allLog" fileName="${LOG_HOME}/log/all.log">
+            <ThresholdFilter level="ALL" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout charset="UTF-8"
+                           pattern="%d{yyyy.MM.dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
+        </File>
+
+        <!--Appender 4. 输出到滚动保存的文件, 触发保存日志文件的条件是每分钟第一次的日志事件。ERROR日志是按分钟产生日志 -->
+        <RollingFile name="infoLog" fileName="${LOG_HOME}/log/info.log"
+                     filePattern="${LOG_HOME}/log/info-%d{yyyy-MM-dd}.log">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout charset="UTF-8" pattern="[%-5level][%d{yyyy-MM-dd HH:mm:ss}][%C:%F:%L] - %m%n"/>
+            <TimeBasedTriggeringPolicy/>
+        </RollingFile>
+
+    </appenders>
+    <!--root 默认加载-->
+    <loggers>
+        <root level="DEBUG">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="allLog"/>
+            <appender-ref ref="infoLog"/>
+        </root>
+    </loggers>
+</configuration>
