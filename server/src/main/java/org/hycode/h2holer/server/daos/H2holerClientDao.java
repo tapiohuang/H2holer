@@ -19,7 +19,7 @@ public interface H2holerClientDao extends JpaRepository<H2holerClient, Integer> 
             "from h2holer_clients " +
             "         left join h2holer_user_and_client_rels h2huacr on h2holer_clients.client_id = h2huacr.client_id " +
             "         left join h2holer_users h2hu on h2huacr.uid = h2hu.uid " +
-            "where access_key = '8768d9f16441483284913e0b2849c602'",
+            "where access_key = ?1",
             nativeQuery = true)
     Map<String, Object> findClientAndUserByAccessKey(String accessKey);
 }

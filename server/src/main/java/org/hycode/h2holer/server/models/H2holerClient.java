@@ -14,7 +14,7 @@ import java.util.Objects;
 public class H2holerClient implements Serializable {
     private static final long serialVersionUID = 4470342425409301145L;
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO )
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String clientId;
     private String accessKey;
@@ -33,19 +33,6 @@ public class H2holerClient implements Serializable {
         }
         H2holerClient other = (H2holerClient) o;
         return this.clientId.equals(other.clientId);
-    }
-
-    @Override
-    public String toString() {
-        return "ADangClient{" +
-                "id=" + id +
-                ", clientId='" + clientId + '\'' +
-                ", accessKey='" + accessKey + '\'' +
-                ", enabled=" + enabled +
-                ", status=" + status +
-                ", lastOnlineAt='" + lastOnlineAt + '\'' +
-                ", clientChannel=" + clientChannel +
-                '}';
     }
 
     public int getId() {
@@ -107,5 +94,18 @@ public class H2holerClient implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(clientId);
+    }
+
+    @Override
+    public String toString() {
+        return "H2holerClient{" +
+                "id=" + id +
+                ", clientId='" + clientId + '\'' +
+                ", accessKey='" + accessKey + '\'' +
+                ", enabled=" + enabled +
+                ", status=" + status +
+                ", lastOnlineAt='" + lastOnlineAt + '\'' +
+                ", clientChannel=" + clientChannel +
+                '}';
     }
 }

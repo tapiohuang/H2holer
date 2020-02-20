@@ -34,7 +34,7 @@ public class PublicServiceHandler extends SimpleChannelInboundHandler<ByteBuf> {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        log.info("读取完毕");
+        /*log.info("读取完毕");
         System.out.println(data);
         Calendar cd = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("EEE d MMM yyyy HH:mm:ss 'GMT'", Locale.US);
@@ -49,7 +49,7 @@ public class PublicServiceHandler extends SimpleChannelInboundHandler<ByteBuf> {
         String json = "{\"code\":-1,\"msg\":\"非法请求\",\"data\":\"\",\"time\":\"2020-02-19 15:41:15\"}";
         stringBuilder.append(json);
         ByteBuf buffer = Unpooled.copiedBuffer(stringBuilder.toString().getBytes(Charset.defaultCharset()));
-        //ctx.writeAndFlush(buffer);
+        //ctx.writeAndFlush(buffer);*/
         super.channelReadComplete(ctx);
     }
 
@@ -60,8 +60,9 @@ public class PublicServiceHandler extends SimpleChannelInboundHandler<ByteBuf> {
         byte[] bytes = new byte[len];
         msg.readBytes(bytes);
         String s = new String(bytes);
-        System.out.println(s);
-        data += s;
+        //System.out.println(s);
+        log.info("读取:{}", s);
+        //data += s;
         //ctx.close();
 /*        if (h2holerClient != null) {
             log.info("客户端已连接：" + publicPortNum);

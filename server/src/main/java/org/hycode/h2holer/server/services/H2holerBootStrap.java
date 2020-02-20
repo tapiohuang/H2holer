@@ -14,7 +14,7 @@ public class H2holerBootStrap {
 
 
         ClientService clientService = ClientService.get();
-        publicService.start(ClientServiceInitializer.getClientServiceInitializer());
+        clientService.start(ClientServiceInitializer.getClientServiceInitializer());
         clientService.listenPort(10000);
     }
 }

@@ -12,11 +12,11 @@ import org.hycode.h2holer.server.services.publicly.PublicServiceInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.net.BindException;
 import java.util.HashMap;
 
 public abstract class AbstractService {
     private static Logger logger = LoggerFactory.getLogger(AbstractService.class);
-
 
     protected ServerBootstrap serverBootstrap;
     protected NioEventLoopGroup serverWorker;
@@ -45,7 +45,8 @@ public abstract class AbstractService {
             }
         }
         try {
-            ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
+            ChannelFuture channelFuture = serverBootstrap.bind(port);
+            channelFuture = channelFuture.sync();
             if (channelFuture != null && channelFuture.isSuccess()) {
                 channel = channelFuture.channel();
                 boundPortMap.put(port, channel);
@@ -53,8 +54,7 @@ public abstract class AbstractService {
             } else {
                 logger.info("绑定端口：[{}] 失败", port);
             }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
+        } catch (Throwable e) {
             logger.info("绑定端口：[{}] 失败，{}", port, e);
         }
 
