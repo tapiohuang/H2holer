@@ -1,8 +1,8 @@
-package org.hycode.adang.server.models;
+package org.hycode.h2holer.common.modles;
 
 import org.springframework.util.DigestUtils;
 
-public class AdangMsg {
+public class H2holerMessage {
     public static final int CONTROL = 1;
     public static final int DATA = 2;
     public static final int AUTH = 3;
@@ -30,7 +30,7 @@ public class AdangMsg {
 
     private int no;
 
-    public AdangMsg() {
+    public H2holerMessage() {
     }
 
     public String getSn() {

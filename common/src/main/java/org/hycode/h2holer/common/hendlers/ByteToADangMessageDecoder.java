@@ -1,16 +1,16 @@
-package org.hycode.adang.server.services.handlers;
+package org.hycode.h2holer.common.hendlers;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
-import org.hycode.adang.server.ADangServerApplication;
-import org.hycode.adang.server.constants.ADangConst;
-import org.hycode.adang.server.models.AdangMsg;
+
+import org.hycode.h2holer.common.constants.H2holerConst;
+import org.hycode.h2holer.common.modles.H2holerMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ByteToADangMessageDecoder extends LengthFieldBasedFrameDecoder {
-    private static Logger logger = LoggerFactory.getLogger(ADangServerApplication.class);
+    private static Logger logger = LoggerFactory.getLogger(ByteToADangMessageDecoder.class);
 
     public ByteToADangMessageDecoder(int maxFrameLength, int lengthFieldOffset, int lengthFieldLength, int lengthAdjustment, int initialBytesToStrip) {
         super(maxFrameLength, lengthFieldOffset, lengthFieldLength, lengthAdjustment, initialBytesToStrip);
@@ -18,7 +18,6 @@ public class ByteToADangMessageDecoder extends LengthFieldBasedFrameDecoder {
 
     @Override
     protected Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
-        //System.out.println(in.toString(Charset.defaultCharset()));
         if (in == null) {
             return null;
         }
@@ -26,7 +25,7 @@ public class ByteToADangMessageDecoder extends LengthFieldBasedFrameDecoder {
             return null;
         }
         int frameLen = in.readInt();//获取总的数据长度
-        frameLen = frameLen - ADangConst.ADANG_MSG_DATA_LEN;
+        frameLen = frameLen - H2holerConst.MSG_LEN;
         if (in.readableBytes() < frameLen) {
             in.resetReaderIndex();
             return null;
@@ -34,22 +33,22 @@ public class ByteToADangMessageDecoder extends LengthFieldBasedFrameDecoder {
         /*
         包类型
          */
-        AdangMsg adangMsg = new AdangMsg();
+        H2holerMessage h2holerMessage = new H2holerMessage();
         int type = in.readInt();
-        adangMsg.setType(type);
+        h2holerMessage.setType(type);
 
         /*
         包标识符
          */
-        byte[] snBytes = new byte[ADangConst.ADANG_MSG_SN_LEN];
+        byte[] snBytes = new byte[H2holerConst.MSG_SN_LEN];
         in.readBytes(snBytes);
-        adangMsg.setSn(snBytes);
+        h2holerMessage.setSn(snBytes);
 
         /*
         包序号
          */
         int no = in.readInt();
-        adangMsg.setNo(no);
+        h2holerMessage.setNo(no);
 
         /*
         内容长度
@@ -61,16 +60,16 @@ public class ByteToADangMessageDecoder extends LengthFieldBasedFrameDecoder {
          */
         byte[] dataBytes = new byte[dataLen];
         in.readBytes(dataBytes);
-        adangMsg.setData(dataBytes);
+        h2holerMessage.setData(dataBytes);
 
         /*
         校验MD5
          */
-        byte[] md5Bytes = new byte[ADangConst.ADANG_MSG_MD5_LEN];
+        byte[] md5Bytes = new byte[H2holerConst.MSG_MD5_LEN];
         in.readBytes(md5Bytes);
-        adangMsg.setMd5(md5Bytes);
+        h2holerMessage.setMd5(md5Bytes);
 
-        return adangMsg;
+        return h2holerMessage;
     }
 
 }

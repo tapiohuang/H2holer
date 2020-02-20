@@ -17,7 +17,7 @@ public class PortController {
     @AuthCheck
     @RequestMapping("/all")
     public H2holerResult getAllPort(@RequestBody H2holerUser h2holerUser) {
-        return CommonUtil.success("成功", null);
+        return CommonUtil.success(null);
     }
 
     @AuthCheck
@@ -25,24 +25,24 @@ public class PortController {
     public H2holerResult<H2holerPortMapper> addPort(@RequestBody H2holerPortMapper h2holerPortMapper) {
         h2holerPortMapper.setAccessKey(CommonUtil.randomID());
         DaoUtil.getH2holerPortMapperDao().save(h2holerPortMapper);
-        return CommonUtil.success("成功", null);
+        return CommonUtil.success(null);
     }
 
     @AuthCheck
     @RequestMapping("/delete")
     public H2holerResult deletePort() {
-        return CommonUtil.success("成功", null);
+        return CommonUtil.success(null);
     }
 
     @AuthCheck
     @RequestMapping("/ban")
     public H2holerResult banPort() {
-        return CommonUtil.success("成功", null);
+        return CommonUtil.success(null);
     }
 
     @AuthCheck
     @RequestMapping("/open")
     public H2holerResult openPort() {
-        return CommonUtil.success("成功", null);
+        return CommonUtil.success(null);
     }
 }

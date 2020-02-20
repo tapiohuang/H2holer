@@ -1,4 +1,4 @@
-package org.hycode.h2holer.server.models;
+package org.hycode.h2holer.common.modles;
 
 public class H2holerResult<T> {
     public static final int OK = 1;

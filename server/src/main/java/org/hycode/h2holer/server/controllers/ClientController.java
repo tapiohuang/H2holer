@@ -17,6 +17,6 @@ public class ClientController {
         aDangClient.setAccessKey(CommonUtil.randomID());
         aDangClient.setClientId(CommonUtil.randomID());
         DaoUtil.getH2holerClientDao().save(aDangClient);
-        return CommonUtil.success("成功", null);
+        return CommonUtil.success(null);
     }
 }
