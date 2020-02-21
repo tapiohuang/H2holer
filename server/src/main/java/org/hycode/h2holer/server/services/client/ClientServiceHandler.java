@@ -8,6 +8,7 @@ import org.hycode.h2holer.common.modles.H2holerMessage;
 import org.hycode.h2holer.common.modles.H2holerResult;
 import org.hycode.h2holer.server.models.H2holerClient;
 import org.hycode.h2holer.server.services.ServiceManager;
+import org.hycode.h2holer.server.services.publicly.PublicContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,16 +20,7 @@ public class ClientServiceHandler extends SimpleChannelInboundHandler<H2holerMes
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, H2holerMessage msg) throws Exception {
         log.info("收到数据:{}", msg);
-        int type = msg.getType();
-        switch (type) {
-            case H2holerMessage.AUTH:
-                this.checkAuth(msg);
-                break;
-            case H2holerMessage.DATA:
-                clientContext.sendPublic(msg);
-                break;
-        }
-
+        handleMessage(msg);
     }
 
     @Override
@@ -80,4 +72,21 @@ public class ClientServiceHandler extends SimpleChannelInboundHandler<H2holerMes
         clientContext.initializer();
         this.clientContext = clientContext;
     }
+
+    private void handleMessage(H2holerMessage h2holerMessage) {
+        int type = h2holerMessage.getType();
+        switch (type) {
+            case H2holerMessage.AUTH:
+                this.checkAuth(h2holerMessage);
+                break;
+            case H2holerMessage.DATA:
+                clientContext.sendPublic(h2holerMessage);
+                break;
+            case H2holerMessage.CLIENT_PUBLIC_INIT_SUCCESS:
+                PublicContext publicContext = this.clientContext.getPublicContext(h2holerMessage.getSn());
+                publicContext.setClientPublicContextOK();
+                break;
+        }
+    }
+
 }

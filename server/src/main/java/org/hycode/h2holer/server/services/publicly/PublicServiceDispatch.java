@@ -48,6 +48,7 @@ public class PublicServiceDispatch extends SimpleChannelInboundHandler<ByteBuf> 
             }
             super.channelActive(ctx);
         } catch (Throwable t) {
+            t.printStackTrace();
             log.info("错误:{}", t.getMessage());
         }
     }
@@ -61,5 +62,17 @@ public class PublicServiceDispatch extends SimpleChannelInboundHandler<ByteBuf> 
         publicContext = new PublicContext();
         publicContext.registerChannel(channel);
         publicContext.initializer();
+        if (publicContext.isReady()) {
+            this.initClientPublicContext();
+        }
+    }
+
+    private void initClientPublicContext() {
+        publicContext.sendClient(CommonUtil.message(
+                H2holerMessage.CLIENT_PUBLIC_INIT, publicContext.getH2holerPublicConfig().toJson()
+        ));
+        log.info("呼唤客户端初始化:等待");
+        publicContext.waitUntilClientPublicOk();
+        log.info("启动");
     }
 }

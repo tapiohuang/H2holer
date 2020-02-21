@@ -16,6 +16,7 @@ import java.util.List;
 
 public class ClientContext implements ServiceContext<PublicContext> {
     private final List<Integer> ports;
+    private final HashMap<Integer, H2holerPortMapper> portMapperMap;
     private final HashMap<Integer, String> protocolMap;
     private final HashMap<String, PublicContext> publicContextMap;
     private Channel channel;
@@ -26,6 +27,11 @@ public class ClientContext implements ServiceContext<PublicContext> {
         ports = new LinkedList<>();
         protocolMap = new HashMap<>();
         publicContextMap = new HashMap<>();
+        portMapperMap = new HashMap<>();
+    }
+
+    public HashMap<Integer, H2holerPortMapper> getPortMapperMap() {
+        return portMapperMap;
     }
 
     public List<Integer> getPorts() {
@@ -61,6 +67,7 @@ public class ClientContext implements ServiceContext<PublicContext> {
             int publicPort = h2holerPortMapper.getPublicPort();
             PublicService.get().listenPort(publicPort);
             ports.add(publicPort);
+            portMapperMap.put(publicPort, h2holerPortMapper);
             protocolMap.put(publicPort, h2holerPortMapper.getPortType());
         }
         status = true;
@@ -86,5 +93,13 @@ public class ClientContext implements ServiceContext<PublicContext> {
         publicContextMap.forEach((sn, publicContext) -> {
             publicContext.close();
         });
+    }
+
+    public H2holerPortMapper getPortMapper(int port) {
+        return portMapperMap.get(port);
+    }
+
+    public PublicContext getPublicContext(String sn) {
+        return publicContextMap.get(sn);
     }
 }

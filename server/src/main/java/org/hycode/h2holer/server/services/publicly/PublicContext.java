@@ -5,14 +5,17 @@ import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
 import org.hycode.h2holer.common.modles.H2holerMessage;
 import org.hycode.h2holer.common.modles.H2holerPort;
+import org.hycode.h2holer.common.modles.H2holerPublicConfig;
 import org.hycode.h2holer.common.modles.H2holerResult;
 import org.hycode.h2holer.common.utils.CommonUtil;
+import org.hycode.h2holer.server.models.H2holerPortMapper;
 import org.hycode.h2holer.server.services.ServiceContext;
 import org.hycode.h2holer.server.services.ServiceManager;
 import org.hycode.h2holer.server.services.client.ClientContext;
 import org.hycode.h2holer.server.utils.H2holerServiceUtil;
 
 public class PublicContext implements ServiceContext<ClientContext> {
+    private final Object wait = new Object();
     private ClientContext clientContext;
     private Channel channel;
     private String sn;
@@ -20,6 +23,8 @@ public class PublicContext implements ServiceContext<ClientContext> {
     private int clientNo;
     private H2holerPort h2holerPort;
     private boolean status;
+    private H2holerPublicConfig h2holerPublicConfig;
+    private int clientPublicContextStatus;
 
     @Override
     public void send(H2holerMessage h2holerMessage) {
@@ -51,10 +56,16 @@ public class PublicContext implements ServiceContext<ClientContext> {
             clientContext.registerContext(this);
             String protocol = clientContext.getProtocol(port);
             this.h2holerPort = new H2holerPort(port, protocol);
+            this.adaptH2holerPublicConfig();
             status = true;
         } else {
             send(CommonUtil.message(H2holerMessage.UN_CONNECTED, result.getMsg()));
         }
+    }
+
+    private void adaptH2holerPublicConfig() {
+        H2holerPortMapper h2holerPortMapper = clientContext.getPortMapper(h2holerPort.getPort());
+        this.h2holerPublicConfig = new H2holerPublicConfig(h2holerPortMapper.getPortType(), h2holerPortMapper.getInnerAddr(), h2holerPortMapper.getInnerPort(), sn);
     }
 
     public String getProtocol() {
@@ -80,5 +91,43 @@ public class PublicContext implements ServiceContext<ClientContext> {
 
     public String getSn() {
         return sn;
+    }
+
+    public H2holerPublicConfig getH2holerPublicConfig() {
+        return h2holerPublicConfig;
+    }
+
+    public int getClientPublicContextStatus() {
+        return clientPublicContextStatus;
+    }
+
+    public void setClientPublicContextStatus(int status) {
+        this.clientPublicContextStatus = status;
+    }
+
+    public void setClientPublicContextOK() {
+        synchronized (wait) {
+            this.clientPublicContextStatus = 1;
+            this.wait.notify();
+        }
+    }
+
+
+    public void waitUntilClientPublicOk(){
+        if (this.clientPublicContextStatus == 1) {
+            return;
+        }
+        int times = 0;
+        while (this.clientPublicContextStatus != 1 && times < 20) {
+            try {
+                synchronized (wait) {
+                    wait.wait(500);
+                }
+
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            times++;
+        }
     }
 }
