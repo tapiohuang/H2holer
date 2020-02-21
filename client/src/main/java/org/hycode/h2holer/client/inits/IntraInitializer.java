@@ -18,19 +18,13 @@ package org.hycode.h2holer.client.inits;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
-import org.hycode.h2holer.client.headlers.ClientHandler;
-import org.hycode.h2holer.common.hendlers.ByteToH2holerMessageDecoder;
-import org.hycode.h2holer.common.hendlers.H2holerMessageToByteEncoder;
+import org.hycode.h2holer.client.headlers.IntraHandler;
 
-public class ClientInitializer extends ChannelInitializer<SocketChannel> {
-
+public class IntraInitializer extends ChannelInitializer<SocketChannel> {
 
     @Override
     protected void initChannel(SocketChannel ch) throws Exception {
-        ch.pipeline().addLast(new H2holerMessageToByteEncoder());
-
-        ch.pipeline().addLast(new ByteToH2holerMessageDecoder(2 * 1024 * 1024, 0, 4, 0, 0));
-        ch.pipeline().addLast(new ClientHandler());
+        ch.pipeline().addLast(new IntraHandler());
     }
 
 }
