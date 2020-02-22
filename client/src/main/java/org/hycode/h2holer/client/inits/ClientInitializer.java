@@ -29,7 +29,7 @@ public class ClientInitializer extends ChannelInitializer<SocketChannel> {
     protected void initChannel(SocketChannel ch) throws Exception {
         ch.pipeline().addLast(new H2holerMessageToByteEncoder());
 
-        ch.pipeline().addLast(new ByteToH2holerMessageDecoder(2 * 1024 * 1024, 0, 4, 0, 0));
+        ch.pipeline().addLast(new ByteToH2holerMessageDecoder(1024));
         ch.pipeline().addLast(new ClientHandler());
     }
 

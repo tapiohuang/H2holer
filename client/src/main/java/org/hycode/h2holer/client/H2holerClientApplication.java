@@ -1,15 +1,25 @@
 package org.hycode.h2holer.client;
 
-import org.hycode.h2holer.client.managers.ClientManager;
-import org.hycode.h2holer.client.managers.IntraManager;
+import org.hycode.h2holer.client.headlers.ClientHandler;
+import org.hycode.h2holer.client.managers.ClientService;
+import org.hycode.h2holer.client.managers.IntraService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.lang.management.ManagementFactory;
 
 
 public class H2holerClientApplication {
-    public static void main(String[] args) {
-        ClientManager clientManager = ClientManager.get();
-        clientManager.init();
+    private static Logger log = LoggerFactory.getLogger(ClientHandler.class);
 
-        IntraManager intraManager = IntraManager.get();
-        intraManager.init();
+    public static void main(String[] args) {
+        String name = ManagementFactory.getRuntimeMXBean().getName();
+        String pid = name.split("@")[0];
+        log.info("Client PID:{}", pid);
+
+        ClientService.clientService.init();
+
+        IntraService.intraService.init();
+
     }
 }
