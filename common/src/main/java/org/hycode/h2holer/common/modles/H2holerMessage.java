@@ -1,6 +1,5 @@
 package org.hycode.h2holer.common.modles;
 
-import org.springframework.util.DigestUtils;
 
 public class H2holerMessage {
     public static final int CONTROL = 1;
@@ -11,26 +10,23 @@ public class H2holerMessage {
     public static final int UN_CONNECTED = 6;
     public static final int DATA_START = 7;
     public static final int DATA_END = 8;
+    public static final int CLIENT_UNCONNECTED = 9;
+    public static final int CLIENT_PUBLIC_INIT = 10;
+    public static final int CLIENT_PUBLIC_INIT_SUCCESS = 11;
+    public static final int CLIENT_PUBLIC_OFF = 12;
 
-    private String sn;
-    private String md5;
     private int type;
-    private String data;
+    private String sn;
+    private String clientId;
+    private byte[] data;
+    private int no = 0;
 
-    @Override
-    public String toString() {
-        return "AdangMsg{" +
-                "sn='" + sn + '\'' +
-                ", md5='" + md5 + '\'' +
-                ", type=" + type +
-                ", data='" + data + '\'' +
-                ", no=" + no +
-                '}';
+    public int getType() {
+        return type;
     }
 
-    private int no;
-
-    public H2holerMessage() {
+    public void setType(int type) {
+        this.type = type;
     }
 
     public String getSn() {
@@ -41,54 +37,21 @@ public class H2holerMessage {
         this.sn = sn;
     }
 
-    public void setSn(byte[] snBytes) {
-        this.sn = new String(snBytes);
-    }
-
-    public byte[] getSnBytes() {
-        return sn.getBytes();
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
-    }
-
-    public String getData() {
+    public byte[] getData() {
         return data;
     }
 
-    public void setData(String data) {
+    public void setData(byte[] data) {
         this.data = data;
-        this.md5 = DigestUtils.md5DigestAsHex(data.getBytes());
     }
 
-    public void setData(byte[] dataBytes) {
-        this.data = new String(dataBytes);
-        this.md5 = DigestUtils.md5DigestAsHex(dataBytes);
+
+    public String getClientId() {
+        return clientId;
     }
 
-    public byte[] getDataBytes() {
-        return data.getBytes();
-    }
-
-    public String getMd5() {
-        return md5;
-    }
-
-    public void setMd5(String md5) {
-        this.md5 = md5;
-    }
-
-    public void setMd5(byte[] md5Bytes) {
-        this.md5 = new String(md5Bytes);
-    }
-
-    public byte[] getMd5Bytes() {
-        return this.md5.getBytes();
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
     }
 
     public int getNo() {
@@ -97,5 +60,16 @@ public class H2holerMessage {
 
     public void setNo(int no) {
         this.no = no;
+    }
+
+    @Override
+    public String toString() {
+        return "H2holerMessage{" +
+                "type=" + type +
+                ", sn='" + sn + '\'' +
+                ", clientId='" + clientId + '\'' +
+                ", data=" + new String(data) +
+                ", no=" + no +
+                '}';
     }
 }

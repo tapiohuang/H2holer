@@ -22,8 +22,8 @@ public class H2holerConst {
     public static final int CLIENT_SERVICE_PORT = 10010;
     public static final int MSG_LEN = 4;
     public static final int MSG_TYPE_LEN = 4;
-    public static final int MSG_DATA_LEN = 4;
-    public static final int MSG_SN_LEN = 36;//包的识别号
+    public static final int MSG_CLIENT_ID_LEN = 32;
+    public static final int MSG_SN_LEN = 32;//包的识别号
     public static final int MSG_MD5_LEN = 32;//数据校验码长度
     public static final int MSG_NO_LEN = 4;
     public static final int COOKIE_MAX_AGE = 7 * 24 * 3600;
