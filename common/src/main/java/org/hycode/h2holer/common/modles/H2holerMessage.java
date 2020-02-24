@@ -14,6 +14,7 @@ public class H2holerMessage {
     public static final int CLIENT_PUBLIC_INIT = 10;
     public static final int CLIENT_PUBLIC_INIT_SUCCESS = 11;
     public static final int CLIENT_PUBLIC_OFF = 12;
+    public static final int INTRA_OFF = 13;
 
     private int type;
     private String sn;

@@ -56,6 +56,7 @@ public class ByteToH2holerMessageDecoder extends FixedLengthFrameDecoder {
         int no = in.readInt();
         h2holerMessage.setNo(no);
         int dataLen = in.readInt();
+        
         byte[] dataBytes = new byte[in.readableBytes()];
         in.readBytes(dataBytes);
         byte[] lastData = Arrays.copyOf(dataBytes, dataLen);

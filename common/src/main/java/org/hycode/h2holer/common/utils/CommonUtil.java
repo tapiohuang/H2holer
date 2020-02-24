@@ -63,4 +63,12 @@ public class CommonUtil {
         Gson gson = new Gson();
         return gson.fromJson(json, tClass);
     }
+
+    public static void waitMoment(int i) {
+        try {
+            Thread.sleep(i);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
