@@ -3,7 +3,6 @@ package org.hycode.h2holer.server.services;
 
 import org.hycode.h2holer.common.modles.H2holerResult;
 import org.hycode.h2holer.common.utils.CommonUtil;
-import org.hycode.h2holer.server.models.H2holerPortMapper;
 import org.hycode.h2holer.server.services.client.ClientContext;
 
 import java.util.HashMap;
@@ -25,16 +24,10 @@ public class ServiceManager {
         }
     }
 
-    /**
-     * 注册Client的Context
-     * 以Client要监听的端口注册
-     *
-     * @param clientContext ClientContext
-     */
-    public static void registerClient(ClientContext clientContext) {
-        clientContext.getPorts().forEach(port -> {
+
+    public static void registerClientContext(ClientContext clientContext) {
+        clientContext.getPortMapperMap().forEach((port, portMapper) -> {
             serviceManager.portAndClientContextMap.put(port, clientContext);
         });
     }
-
 }

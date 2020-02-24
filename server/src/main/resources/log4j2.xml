@@ -3,7 +3,7 @@
     <!-- 自己设置属性，后面通过${}来访问 -->
     <properties>
         <!-- <property name="LOG_HOME">/data/pear/v1/third-server</property> -->
-        <property name="LOG_HOME">logs</property>
+        <property name="LOG_HOME">server/log</property>
         <!-- 日志备份目录 -->
     </properties>
     <appenders>
@@ -16,15 +16,15 @@
         </Console>
 
         <!--Appender 2. 输出到滚动保存的文件, 触发保存日志文件的条件是日志文件大于3KB，只保存最新的10个日志-->
-        <File name="allLog" fileName="${LOG_HOME}/log/all.log">
+        <File name="allLog" fileName="${LOG_HOME}/all.log">
             <ThresholdFilter level="ALL" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout charset="UTF-8"
                            pattern="%d{yyyy.MM.dd 'at' HH:mm:ss z} %-5level %class{36} %L %M - %msg%xEx%n"/>
         </File>
 
         <!--Appender 4. 输出到滚动保存的文件, 触发保存日志文件的条件是每分钟第一次的日志事件。ERROR日志是按分钟产生日志 -->
-        <RollingFile name="infoLog" fileName="${LOG_HOME}/log/info.log"
-                     filePattern="${LOG_HOME}/log/info-%d{yyyy-MM-dd}.log">
+        <RollingFile name="infoLog" fileName="${LOG_HOME}/info.log"
+                     filePattern="${LOG_HOME}/info-%d{yyyy-MM-dd}.log">
             <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout charset="UTF-8" pattern="[%-5level][%d{yyyy-MM-dd HH:mm:ss}][%C:%F:%L] - %m%n"/>
             <TimeBasedTriggeringPolicy/>
