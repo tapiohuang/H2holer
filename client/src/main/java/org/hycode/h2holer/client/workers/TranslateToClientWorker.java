@@ -28,8 +28,8 @@ public class TranslateToClientWorker extends BaseWorker {
                 return;
             } else {
                 H2holerMessage h2holerMessage = messageQueue.poll();
+                //System.out.println(new String(h2holerMessage.getData()));
                 clientContext.send(h2holerMessage);
-                log.info("发送序号:{}", h2holerMessage.getNo());
             }
         }
     }
@@ -37,6 +37,5 @@ public class TranslateToClientWorker extends BaseWorker {
     public void addMessage(H2holerMessage h2holerMessage) {
         messageQueue.offer(h2holerMessage);
         this.start();
-
     }
 }

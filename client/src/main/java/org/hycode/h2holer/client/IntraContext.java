@@ -36,7 +36,7 @@ public class IntraContext {
     }
 
     public void close() {
-        logger.info("{}关闭", sn);
+        //logger.info("{}关闭", sn);
         this.channel.close();
     }
 

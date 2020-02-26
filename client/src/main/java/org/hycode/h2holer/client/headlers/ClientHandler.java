@@ -29,7 +29,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<H2holerMessage> {
     }
 
     protected void channelRead0(ChannelHandlerContext ctx, H2holerMessage msg) throws Exception {
-        //log.info(msg.toString());
+        log.info(msg.toString());
         ClientService.addHandlerMessage(msg);
     }
 

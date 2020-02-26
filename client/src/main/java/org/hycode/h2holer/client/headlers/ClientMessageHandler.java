@@ -28,13 +28,13 @@ public class ClientMessageHandler {
                 case H2holerMessage.AUTH_FAIL:
                     log.info("鉴权失败");
                     break;
-                case H2holerMessage.CLIENT_PUBLIC_INIT:
+                case H2holerMessage.INTRA_INIT:
                     initIntraContext(h2holerMessage);
                     break;
                 case H2holerMessage.DATA:
                     IntraService.addMessage(h2holerMessage);
                     break;
-                case H2holerMessage.CLIENT_PUBLIC_OFF:
+                case H2holerMessage.INTRA_DISCONNECT:
                     IntraService.closeIntra(h2holerMessage);
                     break;
             }
