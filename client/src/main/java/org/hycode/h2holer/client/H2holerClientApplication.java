@@ -1,8 +1,8 @@
 package org.hycode.h2holer.client;
 
-import org.hycode.h2holer.client.headlers.ClientHandler;
-import org.hycode.h2holer.client.managers.ClientService;
-import org.hycode.h2holer.client.managers.IntraService;
+import org.hycode.h2holer.client.handlers.ClientHandler;
+import org.hycode.h2holer.client.servers.ClientServer;
+import org.hycode.h2holer.client.servers.IntraServer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,9 +17,11 @@ public class H2holerClientApplication {
         String pid = name.split("@")[0];
         log.info("Client PID:{}", pid);
 
-        ClientService.clientService.init();
+        ClientServer clientServer = ClientServer.get();
+        clientServer.init();
 
-        IntraService.intraService.init();
+        IntraServer intraServer = IntraServer.get();
+        intraServer.init();
 
     }
 }

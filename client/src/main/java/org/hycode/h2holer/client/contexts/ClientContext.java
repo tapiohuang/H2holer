@@ -1,14 +1,20 @@
-package org.hycode.h2holer.client;
+package org.hycode.h2holer.client.contexts;
 
 import io.netty.channel.Channel;
 import org.hycode.h2holer.client.utils.ClientUtil;
+import org.hycode.h2holer.client.workers.ClientHandleWorker;
 import org.hycode.h2holer.common.modles.H2holerMessage;
 
 public class ClientContext {
     private Channel channel;
     private String clientId;
+    private ClientHandleWorker clientHandleWorker;
 
-    public void registerChannel(Channel channel) {
+    public Channel getChannel() {
+        return channel;
+    }
+
+    public void setChannel(Channel channel) {
         this.channel = channel;
     }
 
@@ -25,7 +31,11 @@ public class ClientContext {
         this.clientId = clientId;
     }
 
-    public void send(H2holerMessage h2holerMessage) {
-        channel.writeAndFlush(h2holerMessage);
+    public void setClientHandleWorker(ClientHandleWorker clientHandleWorker) {
+        this.clientHandleWorker = clientHandleWorker;
+    }
+
+    public void handleMessage(H2holerMessage msg) {
+        this.clientHandleWorker.handleMessage(this, msg);
     }
 }

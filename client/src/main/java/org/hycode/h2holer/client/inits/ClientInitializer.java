@@ -18,9 +18,9 @@ package org.hycode.h2holer.client.inits;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
-import org.hycode.h2holer.client.headlers.ClientHandler;
-import org.hycode.h2holer.common.hendlers.ByteToH2holerMessageDecoder;
-import org.hycode.h2holer.common.hendlers.H2holerMessageToByteEncoder;
+import org.hycode.h2holer.client.handlers.ClientHandler;
+import org.hycode.h2holer.common.handlers.ByteToH2holerMessageDecoder;
+import org.hycode.h2holer.common.handlers.H2holerMessageToByteEncoder;
 
 public class ClientInitializer extends ChannelInitializer<SocketChannel> {
 

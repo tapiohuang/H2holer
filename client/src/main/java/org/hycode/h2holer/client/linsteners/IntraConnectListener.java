@@ -3,9 +3,9 @@ package org.hycode.h2holer.client.linsteners;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
-import org.hycode.h2holer.client.IntraContext;
-import org.hycode.h2holer.client.headlers.IntraHandler;
-import org.hycode.h2holer.client.managers.IntraService;
+import org.hycode.h2holer.client.contexts.IntraContext;
+import org.hycode.h2holer.client.handlers.IntraHandler;
+import org.hycode.h2holer.client.managers.IntraManager;
 import org.hycode.h2holer.common.modles.H2holerPublicConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,11 +26,11 @@ public class IntraConnectListener implements ChannelFutureListener {
             log.info("连接目标服务器成功:{}", h2holerPublicConfig.getSn());
             Channel channel = future.channel();
             IntraHandler intraHandler = channel.pipeline().get(IntraHandler.class);
-            IntraContext intraContext = new IntraContext();
-            intraContext.registerChannel(channel);
-            intraContext.setSn(h2holerPublicConfig.getSn());
+            IntraContext intraContext = IntraManager.get().getIntraContext(h2holerPublicConfig.getSn());
+            intraContext.setChannel(channel);
             intraHandler.setIntraContext(intraContext);
-            IntraService.registerIntraContext(intraContext);
+            intraContext.setStatus(1);
+            intraContext.writeAllCacheMessage();
         }
     }
 }

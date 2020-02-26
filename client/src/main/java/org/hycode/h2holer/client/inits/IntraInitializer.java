@@ -18,7 +18,7 @@ package org.hycode.h2holer.client.inits;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;
-import org.hycode.h2holer.client.headlers.IntraHandler;
+import org.hycode.h2holer.client.handlers.IntraHandler;
 
 public class IntraInitializer extends ChannelInitializer<SocketChannel> {
 
