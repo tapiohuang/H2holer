@@ -55,13 +55,11 @@ public class IntraContext {
         this.clientContext = clientContext;
     }
 
-    public boolean addMessageCache(H2holerMessage h2holerMessage) {
-        synchronized (messageCacheList) {
-            if (status == 0) {
-                messageCacheList.offer(h2holerMessage);
-                return true;
-            } else {
-                return false;
+    public void addMessageCache(H2holerMessage h2holerMessage) {
+        synchronized (this) {
+            messageCacheList.offer(h2holerMessage);
+            if (status == 1) {
+                writeAllCacheMessage();
             }
         }
     }
@@ -75,10 +73,12 @@ public class IntraContext {
     }
 
     public void writeAllCacheMessage() {
-        synchronized (messageCacheList) {
-            messageCacheList.forEach(v -> {
-                channel.writeAndFlush(CommonUtil.toByteBuf(v.getData()));
-            });
+        synchronized (this) {
+            while (!messageCacheList.isEmpty()) {
+                H2holerMessage h2holerMessage = messageCacheList.poll();
+                //System.out.println(new String(h2holerMessage.getData()));
+                channel.writeAndFlush(CommonUtil.toByteBuf(h2holerMessage.getData()));
+            }
         }
     }
 }
