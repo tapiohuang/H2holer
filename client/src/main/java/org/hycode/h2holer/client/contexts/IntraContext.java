@@ -76,7 +76,6 @@ public class IntraContext {
         synchronized (this) {
             while (!messageCacheList.isEmpty()) {
                 H2holerMessage h2holerMessage = messageCacheList.poll();
-                //System.out.println(new String(h2holerMessage.getData()));
                 channel.writeAndFlush(CommonUtil.toByteBuf(h2holerMessage.getData()));
             }
         }

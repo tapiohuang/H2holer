@@ -33,19 +33,19 @@ public class IntraMessageHandler implements MessageHandler<ClientHandleWorker.En
                 this.handleIntraDisConnect(h2holerMessage);
                 break;
             case H2holerMessage.INTRA_DATA:
+                System.out.println(new String(h2holerMessage.getData()));
                 this.handleIntraData(h2holerMessage);
                 break;
             case H2holerMessage.INTRA_CLOSE:
-                channel.writeAndFlush(h2holerMessage);
-                break;
             case H2holerMessage.INTRA_RETURN_DATA:
                 channel.writeAndFlush(h2holerMessage);
-                //System.out.println(new String(h2holerMessage.getData()));
                 break;
         }
     }
 
     private void handleInitIntraContext(H2holerMessage h2holerMessage) {
+        String publicId = h2holerMessage.getSn();
+        IntraManager.get().applyIntraContext(publicId);
         H2holerPublicConfig h2holerPublicConfig = CommonUtil.fromJson(new String(h2holerMessage.getData()), H2holerPublicConfig.class);
         IntraServer.get().connectIntra(h2holerPublicConfig);
     }
@@ -53,12 +53,9 @@ public class IntraMessageHandler implements MessageHandler<ClientHandleWorker.En
     private void handleIntraData(H2holerMessage h2holerMessage) {
         String publicId = h2holerMessage.getSn();
         IntraContext intraContext = IntraManager.get().getIntraContext(publicId);
-        if (intraContext.getStatus() != 1) {
-            if (intraContext.addMessageCache(h2holerMessage)) {
-                return;
-            }
-        }
-        intraContext.getChannel().writeAndFlush(CommonUtil.toByteBuf(h2holerMessage.getData()));
+        intraContext.addMessageCache(h2holerMessage);
+        //System.out.println(new String(h2holerMessage.getData()));
+        //intraContext.getChannel().writeAndFlush(CommonUtil.toByteBuf(h2holerMessage.getData()));
     }
 
     private void handleIntraDisConnect(H2holerMessage h2holerMessage) {

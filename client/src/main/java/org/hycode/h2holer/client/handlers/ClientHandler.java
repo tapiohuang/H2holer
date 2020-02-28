@@ -28,6 +28,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<H2holerMessage> {
     protected void channelRead0(ChannelHandlerContext ctx, H2holerMessage msg) throws Exception {
         clientContext = ClientManager.get().getClientContext();
         clientContext.handleMessage(msg);
+
     }
 
 
