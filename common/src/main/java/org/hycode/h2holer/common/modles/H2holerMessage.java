@@ -16,6 +16,17 @@ public class H2holerMessage {
     public static final int CLIENT_PUBLIC_OFF = 12;
     public static final int INTRA_OFF = 13;
 
+    public static final int INTRA_INIT = 100;
+    public static final int INTRA_FAIL = 101;
+    public static final int INTRA_OK = 102;
+    public static final int INTRA_DATA = 103;
+    public static final int INTRA_RETURN_DATA = 104;
+    public static final int INTRA_CLOSE = 105;
+    public static final int INTRA_DISCONNECT = 106;
+
+    public static final int OUT_DATA = 200;
+
+
     private int type;
     private String sn;
     private String clientId;

@@ -1,9 +1,8 @@
-package org.hycode.h2holer.common.hendlers;
+package org.hycode.h2holer.common.handlers;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.FixedLengthFrameDecoder;
-import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import org.hycode.h2holer.common.modles.H2holerMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +24,7 @@ public class ByteToH2holerMessageDecoder extends FixedLengthFrameDecoder {
 
     @Override
     protected Object decode(ChannelHandlerContext ctx, ByteBuf in) throws Exception {
-        if (in == null || in.readableBytes() < 1024) {
+        if (in == null) {
             return null;
         }
 
@@ -55,9 +54,16 @@ public class ByteToH2holerMessageDecoder extends FixedLengthFrameDecoder {
          */
         int no = in.readInt();
         h2holerMessage.setNo(no);
+
+        /*
+        数据长度
+         */
         int dataLen = in.readInt();
-        
-        byte[] dataBytes = new byte[in.readableBytes()];
+
+        /*
+        数据本体
+        */
+        byte[] dataBytes = new byte[948];
         in.readBytes(dataBytes);
         byte[] lastData = Arrays.copyOf(dataBytes, dataLen);
         h2holerMessage.setData(lastData);

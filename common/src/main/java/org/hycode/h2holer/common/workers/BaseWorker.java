@@ -2,8 +2,8 @@ package org.hycode.h2holer.common.workers;
 
 public abstract class BaseWorker implements Runnable {
     private final Object waitLock = new Object();
-    private volatile boolean run = false;
-    private volatile boolean stop = false;
+    private boolean run = false;
+    private boolean stop = false;
 
 
     public void start() {
@@ -25,9 +25,6 @@ public abstract class BaseWorker implements Runnable {
 
     public void stop() {
         this.stop = true;
-        synchronized (waitLock) {
-            waitLock.notify();
-        }
     }
 
 
@@ -43,7 +40,7 @@ public abstract class BaseWorker implements Runnable {
                     }
                 }
             }
-            //stop = false;
+            stop = false;
         } catch (Exception e) {
             e.printStackTrace();
         }

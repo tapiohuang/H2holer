@@ -1,6 +1,8 @@
 package org.hycode.h2holer.common.utils;
 
 import com.google.gson.Gson;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import org.hycode.h2holer.common.modles.H2holerMessage;
 import org.hycode.h2holer.common.modles.H2holerResult;
 import org.springframework.util.DigestUtils;
@@ -70,5 +72,11 @@ public class CommonUtil {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+
+    public static ByteBuf toByteBuf(byte[] bytes) {
+        ByteBuf byteBuf = Unpooled.copiedBuffer(bytes);
+        return byteBuf;
     }
 }

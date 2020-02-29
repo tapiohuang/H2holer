@@ -1,4 +1,4 @@
-package org.hycode.h2holer.common.hendlers;
+package org.hycode.h2holer.common.handlers;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
