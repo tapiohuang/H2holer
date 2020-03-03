@@ -44,9 +44,9 @@ public class IntraHandler extends SimpleChannelInboundHandler<ByteBuf> {
                     run = false;
                 }
                 msg.readBytes(tmp);
-                System.out.println(new String(tmp));
+                //System.out.println(new String(tmp));
                 H2holerMessage h2holerMessage = CommonUtil.message(H2holerMessage.INTRA_RETURN_DATA, tmp, intraContext.getPublicId(), intraContext.getClientContext().getClientId(), 0);
-                //intraContext.handleMessage(h2holerMessage);
+                intraContext.handleMessage(h2holerMessage);
             }
         } catch (Throwable throwable) {
             throwable.printStackTrace();
