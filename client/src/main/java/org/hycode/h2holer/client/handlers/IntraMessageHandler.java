@@ -33,7 +33,7 @@ public class IntraMessageHandler implements MessageHandler<ClientHandleWorker.En
                 this.handleIntraDisConnect(h2holerMessage);
                 break;
             case H2holerMessage.INTRA_DATA:
-                System.out.println(new String(h2holerMessage.getData()));
+                //System.out.println(new String(h2holerMessage.getData()));
                 this.handleIntraData(h2holerMessage);
                 break;
             case H2holerMessage.INTRA_CLOSE:

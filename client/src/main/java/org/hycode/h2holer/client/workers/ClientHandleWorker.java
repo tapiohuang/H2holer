@@ -60,9 +60,8 @@ public class ClientHandleWorker implements Runnable {
         Entry msgEntry;
         synchronized (waitMessageList) {
             msgEntry = waitMessageList.poll();
-
             if (msgEntry == null) {
-                waitMessageList.clear();
+                //waitMessageList.clear();
                 return;
             }
         }

@@ -12,7 +12,6 @@ import org.slf4j.LoggerFactory;
 public class ClientHandler extends SimpleChannelInboundHandler<H2holerMessage> {
     private static final Logger log = LoggerFactory.getLogger(ClientHandler.class);
     private ClientContext clientContext;
-    //private Channel channel;
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, H2holerMessage msg) throws Exception {
