@@ -1,20 +1,25 @@
 package org.hycode.h2holer.server.services;
 
-import org.hycode.h2holer.server.services.client.ClientService;
-import org.hycode.h2holer.server.services.client.ClientServiceInitializer;
-import org.hycode.h2holer.server.services.publicly.PublicService;
-import org.hycode.h2holer.server.services.publicly.PublicServiceInitializer;
+import org.hycode.h2holer.server.services.client.ClientInitializer;
+import org.hycode.h2holer.server.services.publicly.PublicInitializer;
+import org.hycode.h2holer.server.services.servers.ClientServer;
+import org.hycode.h2holer.server.services.servers.PublicServer;
+import org.hycode.h2holer.server.services.workers.WorkerGroup;
 
 public class H2holerBootStrap {
 
+
     public void initializer() {
-        PublicService publicService = PublicService.get();
-        publicService.start(new PublicServiceInitializer());
-        publicService.listenPort(65);
+        PublicServer publicServer = PublicServer.get();
+        publicServer.start(new PublicInitializer());
+        publicServer.listenPort(65);
 
 
-        ClientService clientService = ClientService.get();
-        clientService.start(ClientServiceInitializer.getClientServiceInitializer());
-        clientService.listenPort(10000);
+        ClientServer clientServer = ClientServer.get();
+        clientServer.start(ClientInitializer.getClientInitializer());
+        clientServer.listenPort(10000);
+
+
+        WorkerGroup workerGroup = WorkerGroup.get();
     }
 }
