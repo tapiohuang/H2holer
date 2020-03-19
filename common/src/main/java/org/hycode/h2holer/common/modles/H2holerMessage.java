@@ -59,6 +59,9 @@ public class H2holerMessage {
 
 
     public String getClientId() {
+        if (clientId == null) {
+            return "";
+        }
         return clientId;
     }
 
